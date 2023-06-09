@@ -19,40 +19,40 @@ bool isValidIpAddress(const char *ipAddress) {
         if (ipAddress[i] == '.') {
             dots++;
             if (segments > 3) {
-                return false;
+                return false;  // IP-адрес содержит более 4 сегментов
             }
             if (i - segmentStart == 0) {
-                return false;
+                return false;  // Пустой сегмент в IP-адресе
             }
             
             // Парсим числовое значение сегмента
             num = 0;
             for (int j = segmentStart; j < i; j++) {
                 if (!isDigit(ipAddress[j])) {
-                    return false;
+                    return false;  // Сегмент содержит нецифровой символ
                 }
                 num = num * 10 + (ipAddress[j] - '0');
             }
             
             // Проверяем диапазон числового значения
             if (num < 0 || num > 255) {
-                return false;
+                return false;  // Числовое значение сегмента выходит за пределы диапазона
             }
             
             segments++;
             segmentStart = i + 1;
         } else if (!isDigit(ipAddress[i])) {
-            return false;
+            return false;  // Символ не является цифрой или точкой
         }
         i++;
     }
     
     // Проверяем количество точек и сегментов в IP-адресе
     if (segments != 3 || dots != 3) {
-        return false;
+        return false;  // Неверное количество точек или сегментов в IP-адресе
     }
     
-    return true;
+    return true;  // IP-адрес является корректным
 }
 
 int main() {
