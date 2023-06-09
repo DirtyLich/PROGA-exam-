@@ -1,5 +1,18 @@
 #include <stdio.h>
 
+// Функция для проверки, является ли символ заглавной буквой
+int custom_isupper(char c) {
+    return c >= 'A' && c <= 'Z';
+}
+
+// Функция для преобразования символа в нижний регистр
+char custom_tolower(char c) {
+    if (custom_isupper(c)) {
+        return c - 'A' + 'a';
+    }
+    return c;
+}
+
 // Функция для преобразования CamelCase в snake_case
 void convert_camel_to_snake(char* str) {
     int i = 0;
@@ -7,12 +20,12 @@ void convert_camel_to_snake(char* str) {
     char prev = '\0'; // Предыдущий символ
 
     while (str[i] != '\0') {
-        if (prev != '\0' && isupper(str[i])) {
+        if (prev != '\0' && custom_isupper(str[i])) {
             // Вставляем символ "_" перед каждой заглавной буквой, кроме первой
             str[j] = '_';
             j++;
         }
-        str[j] = tolower(str[i]); // Преобразуем символ в нижний регистр
+        str[j] = custom_tolower(str[i]); // Преобразуем символ в нижний регистр
         prev = str[i];
         i++;
         j++;
@@ -30,4 +43,3 @@ int main() {
 
     return 0;
 }
-
