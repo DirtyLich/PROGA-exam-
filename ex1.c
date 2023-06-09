@@ -1,10 +1,17 @@
 #include <stdio.h>
-#include <string.h>
+
+int custom_strlen(const char* str) {
+    int length = 0;
+    while (str[length] != '\0') {
+        length++;
+    }
+    return length;
+}
 
 int is_valid_ip_address(const char* ip_address) {
     int num, dots = 0;
     char c;
-    int len = strlen(ip_address);
+    int len = custom_strlen(ip_address);
     int i = 0;
     
     for(i = 0; i < len; i++) {
