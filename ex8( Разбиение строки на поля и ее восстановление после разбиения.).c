@@ -1,5 +1,8 @@
 #include <stdio.h>
 
+#define MAX_FIELDS 100
+#define MAX_FIELD_LENGTH 100
+
 // Функция для вычисления длины строки
 int custom_strlen(const char* str) {
     int length = 0;
@@ -10,16 +13,13 @@ int custom_strlen(const char* str) {
 }
 
 // Функция для разбиения строки на поля
-void split_string(const char* str, char delimiter, char** fields, int* num_fields) {
+void split_string(const char* str, char delimiter, char fields[MAX_FIELDS][MAX_FIELD_LENGTH], int* num_fields) {
     int str_length = custom_strlen(str); // Длина исходной строки
     int field_start = 0; // Начальная позиция текущего поля
     int field_length = 0; // Длина текущего поля
 
     for (int i = 0; i <= str_length; i++) {
         if (str[i] == delimiter || str[i] == '\0') {
-            // Выделяем память для поля
-            fields[*num_fields] = (char*)malloc((field_length + 1) * sizeof(char));
-
             // Копируем символы из исходной строки в поле
             for (int j = 0; j < field_length; j++) {
                 fields[*num_fields][j] = str[field_start + j];
@@ -38,7 +38,7 @@ void split_string(const char* str, char delimiter, char** fields, int* num_field
 }
 
 // Функция для восстановления строки после разбиения
-void join_fields(const char** fields, int num_fields, char delimiter, char* joined_str) {
+void join_fields(const char fields[MAX_FIELDS][MAX_FIELD_LENGTH], int num_fields, char delimiter, char* joined_str) {
     int index = 0; // Индекс текущей позиции в объединенной строке
 
     for (int i = 0; i < num_fields; i++) {
@@ -61,7 +61,7 @@ void join_fields(const char** fields, int num_fields, char delimiter, char* join
 int main() {
     char str[] = "Hello,world,how,are,you";
     char delimiter = ',';
-    char fields[100][100];
+    char fields[MAX_FIELDS][MAX_FIELD_LENGTH];
     int num_fields = 0;
 
     printf("Original string: %s\n", str);
@@ -73,9 +73,8 @@ int main() {
         printf("%s\n", fields[i]);
     }
 
-   
-    char joined_str[1000];
-    join_fields((const char**)fields, num_fields, delimiter, joined_str);
+        char joined_str[MAX_FIELDS * MAX_FIELD_LENGTH];
+    join_fields(fields, num_fields, delimiter, joined_str);
 
     printf("Joined string: %s\n", joined_str);
 
